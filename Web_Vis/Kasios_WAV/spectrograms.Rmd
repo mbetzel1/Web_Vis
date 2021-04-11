@@ -1,0 +1,190 @@
+```{r}
+library(phonTools)
+```
+
+```{r}
+sound <- loadsound(filename = "4.wav")
+```
+
+```{r}
+file <- '4.wav'
+title <- substr(file, 1, nchar(file) - 4)
+title <- paste(title, " Spectrogram")
+spectrogram(sound = sound, nlevels=10, dynamicrange = 100, colors = topo.colors(100), maintitle = title, maxfreq = 10000)
+dev.copy(png, 'test.png')
+dev.off()
+```
+
+colors to use: 
+white = 255,255,255
+turquoise = 0,178,206
+purple = 118,45,167
+```{r}
+files <- list.files(pattern = "\\.wav$")
+```
+
+```{r}
+for (file in files){
+  sound <- loadsound(file)
+  spectrogram(sound = sound, nlevels=10, dynamicrange = 100, maxfreq = 10000, colors = topo.colors(100))
+}
+  
+```
+```{r}
+library(ggplot2)
+```
+```{r}
+library(seewave)
+library(tuneR)
+```
+
+
+```{r}
+#-------------------------------------------
+## LOADING REQUIRED PACKAGES
+#-------------------------------------------
+
+library(seewave)
+library(tuneR)
+library(ggplot2)
+library(viridis)
+library(grid)
+library(gridExtra)
+
+#-------------------------------------------
+## SETUP FOR PLOTS
+#-------------------------------------------
+
+## PLOT LABELLERS
+
+# x label formatter
+s_formatter <- function(x){
+  lab <- paste0(x, " s")
+}
+
+# y label formatter
+khz_formatter <- function(y){
+  lab <- paste0(y, " kHz")
+}
+
+## THEMES
+
+oscillo_theme_dark <- theme(panel.grid.major.y = element_line(color="black", linetype = "dotted"),
+                            panel.grid.major.x = element_blank(),
+                            panel.grid.minor = element_blank(),
+                            panel.background = element_rect(fill="transparent"),
+                            panel.border = element_rect(linetype = "solid", fill = NA, color = "grey"),
+                            axis.line = element_blank(),
+                            legend.position = "none",
+                            plot.background = element_rect(fill="black"),
+                            plot.margin = unit(c(0,1,1,1), "lines"),
+                            axis.title = element_blank(),
+                            axis.text = element_text(size=14, color = "grey"),
+                            axis.ticks = element_line(color="grey"))
+
+hot_theme <- theme(panel.grid.major.y = element_line(color="black", linetype = "dotted"),
+                   panel.grid.major.x = element_blank(),
+                   panel.grid.minor = element_blank(),
+                   panel.background = element_rect(fill="transparent"),
+                   panel.border = element_rect(linetype = "solid", fill = NA, color = "grey"),
+                   axis.line = element_blank(),
+                   legend.position = "top",
+                   legend.justification = "right",
+                   legend.background = element_rect(fill="black"),
+                   legend.key.width = unit(50, "native"),
+                   legend.title = element_text(size=16, color="grey"),
+                   legend.text = element_text(size=16, color="grey"),
+                   plot.background = element_rect(fill="black"),
+                   axis.title = element_blank(),
+                   axis.text = element_text(size=16, color = "grey"),
+                   axis.ticks = element_line(color="grey"))
+
+hot_theme_grid <- theme(panel.grid.major.y = element_line(color="black", linetype = "dotted"),
+                        panel.grid.major.x = element_blank(),
+                        panel.grid.minor = element_blank(),
+                        panel.background = element_rect(fill="transparent"),
+                        panel.border = element_rect(linetype = "solid", fill = NA, color = "grey"),
+                        axis.line = element_blank(),
+                        legend.position = "top",
+                        legend.justification = "right",
+                        legend.background = element_rect(fill="black"),
+                        legend.key.width = unit(50, "native"),
+                        legend.title = element_text(size=16, color="grey"),
+                        legend.text = element_text(size=16, color="grey"),
+                        plot.background = element_rect(fill="black"),
+                        plot.margin = margin(1,1,0,1, "lines"),
+                        axis.title = element_blank(),
+                        axis.text = element_text(size=16, color = "grey"),
+                        axis.text.x = element_blank(),
+                        axis.ticks = element_line(color="grey"))
+
+## COLORS
+
+hot_colors <- inferno(n=9)
+
+#-------------------------------------------
+## LOADING IN A WAV
+#-------------------------------------------
+
+# the path to .wav file
+# note: the file is a clip of a canyon wren song, originally uploaded to xeno-canto.org by Bobby Wilcox
+# note: the sound clip is in the creative commons (CC BY-NC-SA 4.0), downloaded from this link:
+# https://www.xeno-canto.org/381415
+
+wavefile_path <- "4.wav"
+
+# loads a wave object from the .wav file path
+wav <- readWave(wavefile_path)
+
+# builds a dataframe of the wave object values
+sample <- seq(1:length(wav@left))
+time <- sample/wav@samp.rate
+sample.left <- as.vector(cbind(wav@left))
+df <- data.frame(sample, time, sample.left)
+
+# subsets the dataframe to a more manageable size for plotting
+last.index <- tail(df$sample,1)
+index <- seq(from = 1, to = last.index, by = 20)
+df2 <- df[index,]
+
+
+#-------------------------------------------
+## GGSPECTRO PLOTS
+#-------------------------------------------
+
+# builds a spectrogram using ggspectro()
+# note: no x-axis labels because the plot is designed to be aligned with the oscillogram in a grid
+# for x-axis labels, use hot_theme instead of hot_theme_grid
+hotplot <- ggspectro(wave = wav, f = wav@samp.rate, ovlp=90)+ 
+  scale_x_continuous(labels=s_formatter, expand = c(0,0))+
+  scale_y_continuous(breaks = seq(from = 5, to = 20, by=5), expand = c(0,0), labels = khz_formatter, position = "right")+
+  geom_raster(aes(fill=amplitude), hjust = 0, vjust = 0, interpolate = F)+
+  scale_fill_gradientn(colours = hot_colors, name = "Amplitude \n (dB)", na.value = "transparent", limits = c(-60,0))+
+  hot_theme_grid
+
+# builds an oscillogram
+oscplot <- ggplot(df2)+
+  geom_line(mapping = aes(x=time, y=sample.left), color="grey")+ 
+  scale_x_continuous(labels=s_formatter, expand = c(0,0))+
+  scale_y_continuous(expand = c(0,0), position = "right")+
+  geom_hline(yintercept = 0, color="white", linetype = "dotted")+
+  oscillo_theme_dark
+
+#-------------------------------------------
+## PLOT GRID
+#-------------------------------------------
+
+gA=ggplot_gtable(ggplot_build(hotplot))
+gB=ggplot_gtable(ggplot_build(oscplot))
+maxWidth = grid::unit.pmax(gA$widths, gB$widths)
+gA$widths <- as.list(maxWidth)
+gB$widths <- as.list(maxWidth)
+layo <- rbind(c(1,1,1),
+              c(1,1,1),
+              c(1,1,1),
+              c(2,2,2))
+
+grid.newpage()
+grid.arrange(gA, gB, layout_matrix = layo)
+```
+

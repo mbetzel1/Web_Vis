@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>RCBP Visualization</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+        
+    </head>
+    <body>
+        <div class="grid-container">
+            <h1 id='type-filter' style="text-align: center;">Filter by Type</h1>
+            <div id='select-button-container' class="button-container">
+                <button class="select-button" style="width: 100%;">Select All</button>
+            </div>
+            <div id='deselect-button-container' class="button-container">
+                <button class="deselect-button" style="width: 100%;">Deselect All</button>
+            </div>
+            <div class="cb-container" style="background-color: rgb(0, 92, 49);">
+                <input type="checkbox" class="type-checkbox" value="Bent-beak Riffraff"> Bent-beak Riffraff
+            </div>
+            <div class="cb-container" style="background-color: rgb(0, 117, 200);">
+                <input type="checkbox" class="type-checkbox" value="Blue-collared Zipper"> Blue-collared Zipper
+            </div>
+            <div class="cb-container" style="background-color: rgb(240, 163, 255);">
+                <input type="checkbox" class="type-checkbox" value="Bombadil"> Bombadil
+            </div>
+            <div class="cb-container" style="background-color: rgb(255, 0, 85);">
+                <input type="checkbox" class="type-checkbox" value="Broad-winged Jojo"> Broad-winged Jojo
+            </div>
+            <div class="cb-container" style="background-color: rgb(9, 255, 0);">
+                <input type="checkbox" class="type-checkbox" value="Canadian Cootamum"> Canadian Cootamum
+            </div>
+            <div class="cb-container" style="background-color: rgb(62, 95, 0)">
+                <input type="checkbox" class="type-checkbox" value="Carries Champagne Pipit"> Carries Champagne Pipit
+            </div>
+            <div class="cb-container" style="background-color: rgb(233, 93, 0)">
+                <input type="checkbox" class="type-checkbox" value="Darkwing Sparrow"> Darkwing Sparrow
+            </div>
+            <div class="cb-container" style="background-color: rgb(148, 255, 181);">
+                <input type="checkbox" class="type-checkbox" value="Eastern Corn Skeet"> Eastern Corn Skeet
+            </div>
+            <div class="cb-container" style="background-color: rgb(43, 206, 72);">
+                <input type="checkbox" class="type-checkbox" value="Green-tipped Scarlet Pipit"> Green-tipped Scarlet Pipit
+            </div>
+            <div class="cb-container" style="background-color:rgb(157, 204, 0);">
+                <input type="checkbox" class="type-checkbox" value="Lesser Birchbeere"> Lesser Birchbeere
+            </div>
+            <div class="cb-container" style="background-color: rgb(255, 164, 5);">
+                <input type="checkbox" class="type-checkbox" value="Orange Pine Plover"> Orange Pine Plover
+            </div>
+            <div class="cb-container" style="background-color: rgb(0, 51, 128);">
+                <input type="checkbox" class="type-checkbox" value="Ordinary Snape"> Ordinary Snape
+            </div>
+            <div class="cb-container" style="background-color: rgb(194, 0, 136);">
+                <input type="checkbox" class="type-checkbox" value="Pinkfinch"> Pinkfinch
+            </div>
+            <div class="cb-container" style="background-color: rgb(76, 0, 92);">
+                <input type="checkbox" class="type-checkbox" value="Purple Tooting Tout"> Purple Tooting Tout
+            </div>
+            <div class="cb-container" style="background-color: rgb(255, 204, 153) ;">
+                <input type="checkbox" class="type-checkbox" value="Qax"> Qax
+            </div>
+            <div class="cb-container" style="background-color: rgb(255, 255, 0);">
+                <input type="checkbox" class="type-checkbox" value="Queenscoat"> Queenscoat
+            </div>
+            <div class="cb-container" style="background-color: rgb(255, 0, 16);">
+                <input id='rcbp-cb' type="checkbox" class="type-checkbox" value="Rose-crested Blue Pipit"> Rose-crested Blue Pipit
+            </div>
+            <div class="cb-container" style="background-color: rgb(0, 170, 102);">
+                <input type="checkbox" class="type-checkbox" value="Scrawny Jay"> Scrawny Jay
+            </div>
+            <div class="cb-container" style="background-color: rgb(153, 0, 25);">
+                <input type="checkbox" class="type-checkbox" value="Vermillion Trillian"> Vermillion Trillian
+            </div>
+            <div class="cb-container" style="background-color: rgb(0, 0, 0);">
+                <input type="checkbox" class="kasiosCheckbox" value="Kasios"> <span style='color: white'> Kasios Recordings</span> 
+            </div>
+            <div id="instruction-div">
+                <p id='instructions'> Click on a point to view and listen to audio. Click on an X to view and listen to Kasios recordings. Select a bar to identify recordings from that year on map</p>
+            </div>
+            <h1 id='date-filter'>Filter by Date</h1>
+            
+            <div class="svg-container"></div>
+            <div class="slider-container"></div>
+            <h1 id='audio-title'>Rose-Crested Blue Pipit</h1>
+            <div id='waveform'></div>
+            <div id='wave-spectrogram' class='spec'>
+                <div id='sdiv2' class='second-div'></div>
+            </div>
+            <div class="audio-button" id='play-container'>
+                <button class="play-button" style="width: 100%;">Play</button>
+            </div>
+            <div class="audio-button" id='pause-container'>
+                <button class="pause-button" style="width: 100%;">Pause</button>
+            </div>
+            <h1 id='kasios-audio-title'>Kasios Recording 1</h1>
+            <div id='kasios-waveform'></div>
+            <div id='kasios-spectrogram'>
+                <div id='ksdiv2' class='second-div'></div>
+            </div>
+            <div class="audio-button" id='kasios-play-container'>
+                <button id='kasios-play-button' class="play-button" style="width: 100%;">Play</button>
+            </div>
+            <div class="audio-button" id='kasios-pause-container'>
+                <button id='kasios-pause-button' class="pause-button" style="width: 100%;">Pause</button>
+            </div>
+        </div>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <script src="https://unpkg.com/wavesurfer.js"></script>
+        <script src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.spectrogram.min.js"></script>
+        <script src='color_by_type.js'></script>
+        <script src='audio.js'></script>
+        <script src='draw_kasios.js'></script>
+        <script src='sliders.js'></script>
+        <script src='draw_chart.js'></script>
+        <script src="vis.js"></script>
+    </body>
+</html>

@@ -1,0 +1,200 @@
+/* grid and container css */
+body {
+  font-family: 'Times New Roman', Times, serif;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 200px 800px 500px;
+  grid-auto-rows: 25px;
+  grid-gap: 10px;
+}
+#type-filter {
+  grid-row: 1 / span 2;
+}
+.button-container {
+  grid-column: 1 / span 1;
+  border-radius: 10px;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+}
+#select-button-container {
+  grid-row: 3 / span 1;
+}
+#deselect-button-container {
+  grid-row: 4 / span 1;
+}
+.cb-container {
+  grid-column: 1 / span 1;
+  border-radius: 10px;
+  box-shadow: 2px 1px #888888;
+  height: 200;
+}
+#instruction-div {
+  grid-column: 4 / span 1;
+  grid-row: 15 / span 5;
+}
+.svg-container {
+  grid-row: 2 / span 24;
+  grid-column: 2 / 2;
+}
+#date-filter {
+  grid-column: 4 / span 1;
+  grid-row: 1 / span 1;
+}
+.slider-container {
+  grid-row: 3 / span 8;
+  grid-column: 4 / span 1;
+  border-radius: 10px;
+  margin: 0;
+  line-height: 100px;
+}
+#date-range {
+  height: 250;
+  fill:  #000;
+  fill-opacity: 0.2;
+  stroke-width: 1;
+  stroke: black;
+}
+
+
+/* scatterplot css */
+.tooltip {
+	background: #ffffff;
+	box-shadow: 0 0 5px #000000;
+	color: #333;
+	font-size: 20px;
+	padding: 10px;
+  position: absolute;
+	text-align: center;
+	display: block;
+	opacity: 0;
+}
+.selected-audio-circle
+{
+  stroke: black;
+  fill: none;
+}
+.grid-lines {
+  stroke-width: 2;
+  stroke-dasharray: 5,5;
+  stroke: black;
+  fill: none;
+}
+.kasios-line
+{
+  stroke: black;
+  stroke-width: 3;
+}
+.kasios-rect {
+  stroke: black;
+}
+.selected-audio-rect {
+  stroke-width: 1;
+  stroke: black;
+}
+
+/*axes css */
+.axis {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 100px;
+}
+.ticks {
+  font-size: 10px;
+}
+b {
+	color: #000000
+}
+
+/*slider css*/
+.track,
+.track-inset,
+.track-overlay {
+  stroke-linecap: round;
+}
+
+.track {
+  stroke: #000;
+  stroke-opacity: 0.3;
+  stroke-width: 10px;
+}
+
+.track-inset {
+  stroke: #ddd;
+  stroke-width: 8px;
+}
+
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+  cursor: crosshair;
+}
+.handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: 0.5;
+  stroke-width: 1.25px;
+}
+
+
+/* audio css */
+#audio-title {
+  grid-row: 1 / span 1;
+  grid-column: 3 / span 1;
+}
+
+#waveform {
+  grid-row: 3 / span 5;
+  grid-column: 3 / span 1;
+}
+
+div > wave {
+  border-style: solid;
+}
+
+.second-div {
+  border-style: solid;
+  width: 492px;
+  max-width: 492px;
+  height: 160px;
+}
+
+#wave-spectrogram {
+  grid-row: 7 / span 6;
+  grid-column: 3 / span 1;
+}
+.audio-button {
+  grid-column: 3 / span 1;
+  width: 200px;
+}
+#play-container {
+  grid-column: 3 / span 1;
+  grid-row: 12 / span 1;
+}
+#pause-container {
+  grid-column: 3 / span 1;
+  grid-row: 13 / span 1;
+}
+#kasios-audio-title {
+  grid-row: 14 / span 1;
+  grid-column: 3 / span 1;
+}
+#kasios-waveform {
+  grid-row: 16 / span 5;
+  grid-column: 3 / span 1;
+}
+#kasios-spectrogram {
+  grid-row: 20 / span 6;
+  grid-column: 3 / span 1;
+  max-width: 500;
+}
+#kasios-play-container {
+  grid-column: 3 / span 1;
+  grid-row: 25 / span 1;
+}
+#kasios-pause-container {
+  grid-column: 3 / span 1;
+  grid-row: 26 / span 1;
+}
+
